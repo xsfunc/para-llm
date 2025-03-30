@@ -18,7 +18,7 @@ const orderbookCsvColumns = {
 
 export async function analyze(market: string) {
   const bbo = await api.getBBO(market)
-  let data = `${bbo.market}\n`
+  let data = `${bbo.market}`
   data += ('\nbest bid/ask: ')
   data += (`${bbo.bid} (size: ${bbo.bid_size})/${bbo.ask} (size: ${bbo.ask_size})`)
 
