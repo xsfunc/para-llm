@@ -3,6 +3,7 @@ import type { Config } from '#root/config.js'
 import type { Logger } from '#root/logger.js'
 import type { BotConfig } from 'grammy'
 import { adminFeature } from '#root/bot/features/admin.js'
+import { analyzeFuture } from '#root/bot/features/analyze.js'
 import { chatWithLLMFeature } from '#root/bot/features/chat-with-llm.js'
 import { unhandledFeature } from '#root/bot/features/unhandled.js'
 import { errorHandler } from '#root/bot/handlers/error.js'
@@ -61,6 +62,7 @@ export function createBot(token: string, dependencies: Dependencies, botConfig?:
 
   // Handlers
   protectedBot.use(adminFeature)
+  protectedBot.use(analyzeFuture)
   protectedBot.use(chatWithLLMFeature)
   // must be the last handler
   protectedBot.use(unhandledFeature)
