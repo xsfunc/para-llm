@@ -1,6 +1,6 @@
 import type { Content, GenerateContentResult, GenerativeModel } from '@google/generative-ai'
 import { config } from '#root/config.js'
-import { chatModel } from '#root/llm/models.js'
+import { analyzeModel, chatModel } from '#root/llm/models.js'
 import { FunctionCallingMode, GoogleGenerativeAI } from '@google/generative-ai'
 import { systemInstructions } from './system-instructions/index.js'
 
@@ -14,6 +14,7 @@ export const llm: LLM = {
   history: [],
   systemInstructions,
   chatModel,
+  analyzeModel,
   generateContent,
   generateChatContent,
   updateSystemPrompt,
@@ -56,6 +57,7 @@ async function generateContent(content?: Content) {
 
 export interface LLM {
   chatModel: GenerativeModel
+  analyzeModel: GenerativeModel
   history: Content[]
   systemInstructions: Record<string, string>
   updateSystemPrompt: (systemInstruction: string) => void
