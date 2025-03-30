@@ -40,7 +40,7 @@ future.command(
     ctx.logger.debug(token)
     ctx.logger.debug(comment)
     ctx.logger.debug(marketData)
-    return
+
     const response = await llm.analyzeModel.generateContent({
       contents: [{ role: 'user', parts: [{ text: `${comment}\n${marketData}` }] }],
     })
