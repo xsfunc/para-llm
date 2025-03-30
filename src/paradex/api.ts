@@ -234,15 +234,6 @@ async function getOrderbook(params: {
   return response.json()
 }
 
-export const api = {
-  getBBO,
-  getTrades,
-  getFunding,
-  getKlines,
-  getMarketSummary,
-  getOrderbook,
-}
-
 interface BBOResponse {
   /** Symbol of the market */
   market: string
@@ -292,4 +283,76 @@ export interface FundingResponse {
     funding_rate: string
     market: string
   }[]
+}
+
+interface MarketResp {
+  asset_kind: string
+  base_currency: string
+  clamp_rate: string
+  expiry_at: number
+  funding_period_hours: number
+  interest_rate: string
+  iv_bands_width: string
+  market: string
+  market_kind: string
+  max_funding_rate: string
+  max_funding_rate_change: string
+  max_open_orders: number
+  max_order_size: string
+  max_tob_spread: string
+  min_notional: string
+  open_at: number
+  option_type: string
+  oracle_ewma_factor: string
+  order_size_increment: string
+  position_limit: string
+  price_bands_width: string
+  price_feed_id: string
+  price_tick_size: string
+  quote_currency: string
+  settlement_currency: string
+}
+
+interface GetMarketsResponse {
+  results: MarketResp[]
+}
+
+/**
+ * Fetches available markets data
+ * @param params - Parameters for the markets request
+ * @param params.market - Optional market symbol to filter by (e.g. "BTC-USD-PERP")
+ * @returns Promise resolving to markets data response
+ */
+async function getMarkets(params: {
+  market?: string
+}): Promise<GetMarketsResponse> {
+  const url = new URL(`${BASE_URL}/markets`)
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined) {
+      url.searchParams.append(key, String(value))
+    }
+  })
+
+  const response = await fetch(url.toString(), {
+    method: 'GET',
+    headers: getHeaders(),
+    redirect: 'follow',
+  })
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`)
+  }
+
+  return response.json()
+}
+
+export const api = {
+  getBBO,
+  getTrades,
+  getFunding,
+  getKlines,
+  getMarketSummary,
+  getOrderbook,
+  getMarkets,
 }

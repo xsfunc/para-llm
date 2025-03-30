@@ -63,3 +63,8 @@ export function filterFundingByMinutes(funding: FundingResponse, minutes: number
     return entry.created_at % fiveMinutesInMs < 5000 // Allow 5 second window to catch entries close to the 5-min mark
   })
 }
+
+export async function getMarketsBaseTokens() {
+  const markets = await api.getMarkets({})
+  return markets.results.map(m => m.base_currency)
+}
